@@ -1,0 +1,77 @@
+/* Query 1
+In the summer of 2005, which staff member sold the most rentals?
+*/
+
+SELECT staff_member_full_name, COUNT(*) rentals_sold
+FROM
+	(SELECT s.staff_id staffId,
+	        s.first_name || ' ' || s.last_name AS staff_member_full_name,
+	        r.rental_id rentalId,
+	        r.rental_date rentaldate
+	FROM staff s
+	JOIN rental r
+	ON s.staff_id = r.staff_id
+	AND rental_date BETWEEN '2005-06-01' AND '2005-09-01') t1
+GROUP BY staff_member_full_name
+ORDER BY rentals_sold DESC
+LIMIT 1;
+
+/* Query 2
+What are the average prices for each rental category?
+*/
+
+SELECT c.name category_name,
+       AVG(p.amount) avg_amount
+FROM category c
+JOIN film_category fc
+ON c.category_id = fc.category_id
+JOIN film f
+ON fc.film_id = f.film_id
+JOIN inventory i
+ON f.film_id = i.film_id
+JOIN rental r
+ON i.inventory_id = r.inventory_id
+JOIN payment p
+ON r.rental_id = p.rental_id
+GROUP BY category_name
+ORDER BY category_name;
+
+/* Query 3
+How many actors star in films with no inventory?
+*/
+
+SELECT a.first_name || ' ' || a.last_name AS actor_full_name,
+       COUNT(f.title) AS number_of_films
+FROM actor a
+JOIN film_actor fa
+ON a.actor_id = fa.actor_id
+JOIN film f
+ON fa.film_id = f.film_id
+WHERE f.film_id NOT IN (
+			SELECT DISTINCT film_id
+			FROM inventory
+		        )
+GROUP BY actor_full_name
+ORDER BY actor_full_name;
+
+/* Query 4
+For each city in Canada, what are the total amount of customers, how much have they spent, and what is the total amount of rentals for all of Canada?
+*/
+
+SELECT DISTINCT cit.city,
+	COUNT(cus.customer_id) OVER (PARTITION BY cit.city) AS total_customers_per_city,
+	SUM(p.amount) OVER (PARTITION BY cus.customer_id) AS total_amount_spent_per_customer,
+	COUNT(r.rental_id) OVER (ORDER BY cit.city ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS total_rentals_for_Canada
+FROM city AS cit
+JOIN address AS a
+ON cit.city_id = a.city_id
+JOIN customer AS cus
+ON a.address_id = cus.address_id
+JOIN rental AS r
+ON cus.customer_id = r.customer_id
+JOIN payment AS p
+ON r.rental_id = p.rental_id
+JOIN country
+ON country.country_id = cit.country_id
+WHERE country.country = 'Canada'
+ORDER BY cit.city;
