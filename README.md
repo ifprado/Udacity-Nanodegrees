@@ -2,7 +2,8 @@
 ## Programming for Data Science with Python
 :raised_hands::tada::grapes:
 **What am I glad I learned?**
-1. git /play butts
+:raised_hands::tada::grapes:
+1. git
    - I have been trying to use git for a while but I finally have working knowledge like
      - git's staging index
      - how to commit
@@ -18,4 +19,4 @@
      - nested queries
      - window functions
 
-![certificate](certificate-programming-for-data-science-with-python)
+![certificate](certificate-programming-for-data-science-with-python.png)
