@@ -2,7 +2,7 @@
 ## Programming for Data Science with Python
 :raised_hands::tada::grapes:
 **What am I glad I learned?**
-:raised_hands::tada::grapes:
+:grapes::tada::raised_hands:
 1. git
    - I have been trying to use git for a while but I finally have working knowledge like
      - git's staging index
