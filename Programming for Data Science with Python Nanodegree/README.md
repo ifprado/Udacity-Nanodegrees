@@ -1,1 +1,1 @@
-![certificate](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/ifprado/Udacity-Nanodegrees/master/Programming%20for%20Data%20Science%20with%20Python%20Nanodegree/certificate.pdf)
+![certificate](/Users/ifprado/Documents/Udacity/Udacity-Nanodegrees/Programming\ for\ Data\ Science\ with\ Python\ Nanodegree/certificate.png)
